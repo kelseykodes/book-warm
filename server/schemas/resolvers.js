@@ -24,11 +24,11 @@ const resolvers = {
             if (!user) {
               throw new AuthenticationError('Uh oh, No User Found.');
             }
-            const correctPw = await user.isCorrectPassword(password);
-            if (!correctPw) {
+            const correctPass = await user.isCorrectPassword(password);
+            if (!correctPass) {
               throw new AuthenticationError('Try Again!');
             }
-            const token  =signToken(user);
+            const token= signToken(user);
             return {token, user};
         },
         
@@ -36,15 +36,15 @@ const resolvers = {
             if(context.user) {
                 const updatedBooks = await User.findOneAndUpdate(
                     {_id: context.user._id},
-                    {$addToSet: {savedBooks: args} },
+                    {$addToSet: { savedBooks: args } },
                     {
                     new: true, 
-                    runValidators: true
+                    runValidators: true,
                   }
                 );
                 return updatedBooks;
             }
-            throw new AuthenticationError('Cannot Add Book');
+            throw new AuthenticationError('Cannot Add Book. Must Be Logged In.');
         },
         
         removeBook: async (parent, { bookId }, context) => {
@@ -58,7 +58,7 @@ const resolvers = {
                 );
                 return updatedBooks;
             }
-            throw new AuthenticationError('Cannot Delete Book');
+            throw new AuthenticationError('Cannot Delete Book. Must Be Logged In.');
         }
     }
 };
