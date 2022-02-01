@@ -16,7 +16,7 @@ const resolvers = {
         addUser: async(parent, args) => {
             const user = await User.create(args);
             const token = signToken(user);
-            return{token, user};
+            return { token, user };
         },
         
         login: async (parent, { email, password }) => {
@@ -33,7 +33,7 @@ const resolvers = {
         },
         
         saveBook: async(parent, args, context) => {
-            if(context.user){
+            if(context.user) {
                 const updatedBooks = await User.findOneAndUpdate(
                     {_id: context.user._id},
                     {$addToSet: {savedBooks: args} },

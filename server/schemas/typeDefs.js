@@ -1,13 +1,14 @@
 const { gql } = require('apollo-server-express');
 
 const typeDefs = gql`
-  type School {
+  type User {
     _id: ID
-    name: String
-    location: String
+    username: String
+    email: String
     studentCount: Int
     # Add a queryable field to retrieve an array of Class objects
-    classes: [Class]
+    savedBooks: [Book]
+
   }
 
   type Class {
