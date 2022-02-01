@@ -5,34 +5,35 @@ const typeDefs = gql`
     _id: ID
     username: String
     email: String
-    studentCount: Int
+    bookCount: Int
     # Add a queryable field to retrieve an array of Class objects
     savedBooks: [Book]
 
   }
 
-  type Class {
-    _id: ID
-    name: String
-    building: String
-    creditHours: Int
-    # Add a queryable field to retrieve a single Professor object
-    professor: Professor
+  type Book {
+    bookId: ID!
+    authors: [String]
+    title: String
+    description: String
+    image: String
+    link: String
   }
 
-  # Define what can be queried for each professor
-  type Professor {
-    _id: ID
-    name: String
-    officeHours: String
-    officeLocation: String
-    studentScore: Float
+  type Mutation {
+    addUser(username: String!, password: String!, email: String! ): Auth
+    login(email: String!, password: String!): Auth
+    removeBook(bookId: ID!): User
+    saveBook(authors: [String]!, bookId: String!, title: String, description: String, image: String, link: String): User
+  }
+
+  type Auth {
+    token: ID!
+    user: User
   }
 
   type Query {
-    schools: [School]
-    classes: [Class]
-    professors: [Professor]
+   me: User
   }
 `;
 
